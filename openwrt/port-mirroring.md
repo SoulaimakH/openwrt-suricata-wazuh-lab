@@ -24,19 +24,13 @@ Traffic is mirrored **only** to the private network.
 ```bash
 ip link show
 ```
-### Show IP addresses
-```bash
-ip link show
-```
 
 ### Show routing table
 ```bash
 ip route
 ```
-image: 
-192.168.1.0/24 dev br-lan
-10.0.3.0/24 dev eth1
-default via 192.168.1.1 dev br-lan
+<img width="715" height="93" alt="image" src="https://github.com/user-attachments/assets/41962564-3a14-4d4f-8cd6-34111da56fdb" />
+
 
 ## Install Required Packages
 
