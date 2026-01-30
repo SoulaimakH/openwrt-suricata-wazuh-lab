@@ -1,4 +1,8 @@
 # OpenWRT – Suricata – Wazuh Security Monitoring Lab
+##  Architecture
+
+![Network Diagram](archi.png)
+
 ([demo video](https://1drv.ms/v/c/1e4f43606a99e40f/IQCUqWb0N___SYkuLzg0T-M3AWgWBU3B8llT6WEnyervUZU?e=08njB3))
 [![Watch the demo](wazuh.png)](https://1drv.ms/v/c/1e4f43606a99e40f/IQCUqWb0N___SYkuLzg0T-M3AWgWBU3B8llT6WEnyervUZU?e=08njB3)
 
@@ -28,9 +32,7 @@ This project serves as:
   
 The lab environment is hosted on VirtualBox, including three VMs: OpenWRT (router and traffic mirroring), Ubuntu 22.04 (Suricata IDS + Wazuh SIEM), and Kali Linux (attack simulation) with network interfaces configured for public LAN and private monitoring networks.
 
-##  Architecture
 
-![Network Diagram](archi.png)
 
 ### Components
 - **OpenWRT Router**
