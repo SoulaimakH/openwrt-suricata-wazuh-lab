@@ -72,7 +72,7 @@ tcpdump -i eth1 -nn
 
 ### On Ubuntu (Suricata server)
 ```bash
-tcpdump -i <monitoring-interface> -nn
+tcpdump -i <monitoring-interface> -nn  #enp0s10 in my case
 ```
 If traffic is visible, mirroring is working successfully.
 
