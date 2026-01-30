@@ -1,6 +1,6 @@
 # OpenWRT – Suricata – Wazuh Security Monitoring Lab
 
-## 📌 Project Overview
+##  Project Overview
 
 This project demonstrates a **network security monitoring lab** where:
 
@@ -14,7 +14,7 @@ The goal is to simulate real-world attacks and verify detection using IDS and SI
 
 ---
 
-## 🧱 Architecture
+##  Architecture
 
 ![Network Diagram](archi.png)
 
@@ -30,7 +30,7 @@ The goal is to simulate real-world attacks and verify detection using IDS and SI
 
 ---
 
-## 🔀 Traffic Flow
+## Traffic Flow
 
 1. Internal devices communicate through OpenWRT
 2. OpenWRT mirrors traffic (port mirroring)
@@ -55,7 +55,31 @@ The goal is to simulate real-world attacks and verify detection using IDS and SI
 
 ## ⚙️ Configuration Steps
 
-### 1️⃣ OpenWRT – Traffic Mirroring
+### 1 OpenWRT – Traffic Mirroring config
 See:
 ```text
 openwrt/port-mirroring.md
+```
+
+### 2 Ubuntu – config
++  Install Docker 
++ | enp0s10 | Private monitoring network | 10.0.3.15/24 |
+
+
+### 3 suricata
+See:
+```text
+suricata/README.md
+```
+
+### 3 wazuh
+See:
+```text
+wazuh/README.md
+```
+
+### 3 Kali
+See:
+```text
+kali-tests/README.md
+```
