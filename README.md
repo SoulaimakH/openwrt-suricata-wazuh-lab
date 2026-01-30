@@ -12,8 +12,6 @@ This project demonstrates a **network security monitoring lab** where:
 
 The goal is to simulate real-world attacks and verify detection using IDS and SIEM tools.
 
----
-
 ##  Architecture
 
 ![Network Diagram](archi.png)
@@ -28,7 +26,7 @@ The goal is to simulate real-world attacks and verify detection using IDS and SI
 - **Kali Linux**
   - Vulnerability scanning & attack simulation
 
----
+
 
 ## Traffic Flow
 
@@ -39,7 +37,7 @@ The goal is to simulate real-world attacks and verify detection using IDS and SI
 5. Alerts are forwarded to Wazuh SIEM
 6. Wazuh visualizes alerts on the dashboard
 
----
+
 
 ## 🛠 Technologies Used
 
@@ -51,7 +49,7 @@ The goal is to simulate real-world attacks and verify detection using IDS and SI
 - Ubuntu Server
 - Nmap, Nikto, Hydra
 
----
+
 
 ## ⚙️ Configuration Steps
 
