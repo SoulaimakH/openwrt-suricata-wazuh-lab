@@ -1,0 +1,13 @@
+alert tcp any any -> $HOME_NET 22 (msg:"Possible SSH brute-force attack";flow:to_server,established;content:"SSH-2.0";threshold:type both, track by_src, count 5, seconds 60;classtype:attempted-admin;sid:1000003;rev:1;)
+alert tcp any any -> $HOME_NET 22 (msg:"SSH service exposed - inbound connection";flow:to_server,established;classtype:attempted-recon;sid:1000001;rev:1;)
+alert tcp any any -> $HOME_NET 80 (msg:"Insecure HTTP transport detected (no TLS)";flow:to_server,established;classtype:policy-violation;sid:1000006;rev:1;)
+alert http $HOME_NET any -> any any (msg:"Missing HTTP security headers";flow:to_client,established;content:"Server:";http_header;classtype:policy-violation;sid:1000008;rev:1;)
+alert tcp any any -> $HOME_NET 22 (msg:"Possible SSH brute-force attack";flags:S;flow:to_server;threshold:type both, track by_src, count 10, seconds 60;classtype:attempted-admin;sid:1000100;rev:1;)
+
+alert http any any -> $HOME_NET any (msg:"HTTP reconnaissance - Nmap User-Agent detected";flow:established,to_server;content:"nmap";http_user_agent;nocase;classtype:attempted-recon;sid:1000007;rev:2;)
+alert http any any -> $HOME_NET any (msg:"HTTP curl detected";content:"curl/";http_user_agent;sid:9000001;rev:1;)
+alert tcp any any -> $HOME_NET any (msg:"TCP SYN port scan detected";flags:S;flow:stateless;threshold:type both, track by_src, count 20, seconds 10;classtype:attempted-recon;sid:1000012;rev:2;)
+alert http any any -> $HOME_NET any (msg:"LuCI web interface accessed (single alert)";flow:established,to_server;content:"/cgi-bin/luci";http_uri;threshold:type limit, track by_rule, count 1, seconds 3600;classtype:web-application-activity;sid:1000010;rev:1;)
+alert tcp any any -> $HOME_NET 53 (msg:"DEBUG DNS TCP traffic detected";sid:99999999;rev:1;)
+alert tcp any any -> $HOME_NET 53 (msg:"CVE-2017-14493 dnsmasq DNS over TCP observed (potentially vulnerable service)";flow:to_server,established;app-layer-protocol:dns;classtype:attempted-admin;reference:cve,2017-14493;sid:10000210;rev:3;)
+
