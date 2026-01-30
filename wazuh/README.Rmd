@@ -1,0 +1,136 @@
+## Overview
+
+This section describes how **Suricata EVE JSON alerts** are integrated into **Wazuh SIEM** using Docker volumes and custom Wazuh configuration.
+
+Suricata generates alerts in **JSON format (`eve.json`)**, which are ingested by Wazuh for analysis and visualization.
+
+This deployment uses the **official Wazuh Docker repository** in **single-node mode**, suitable for lab and testing environments.
+
+---
+
+## Clone Wazuh Docker Repository
+
+Clone the Wazuh Docker repository:
+
+```bash
+git clone https://github.com/wazuh/wazuh-docker.git -b v4.14.2
+```
+## Docker Volume Configuration
+
+The following volume mappings are added to the **Wazuh Manager** service in `docker-compose.yml`:
+
+```yaml
+volumes:
+  - ./varwazuh:/var/ossec/etc
+  - /home/ubuntu/iot-pr/siem-pr/logs-suricata/eve.json:/var/ossec/logs/suricata/eve.json
+```
+
+### Navigate to Single-Node Deployment
+```
+cd wazuh-docker/single-node/
+```
+All subsequent commands are executed from this directory.
+
+### Components Deployed
+
+The setup includes:
+
+* Wazuh Manager
+
+* Wazuh Indexer
+
+* Wazuh Dashboard
+
+These components are deployed using Docker Compose.
+
+Start Wazuh Stack
+
+Launch the Wazuh services:
+
+``` 
+docker compose up -d
+```
+
+Verify containers are running:
+
+```
+docker ps
+```
+
+Access Wazuh Dashboard
+
+Open a browser and navigate to:
+
+https://<server-ip>
+
+
+
+### Configure Wazuh to Read Suricata JSON Logs
+Allows Wazuh to directly read Suricata alerts generated on the host.
+
+Host Path	Container Path	Purpose
+./varwazuh	/var/ossec/etc	Persist Wazuh configuration
+logs-suricata/eve.json	/var/ossec/logs/suricata/eve.json	Suricata JSON alerts
+
+Edit the Wazuh configuration file:
+```
+vi wazuh_etc/_data/ossec.conf
+```
+
+Add the following configuration:
+```
+<ossec_config>
+  <localfile>
+    <log_format>json</log_format>
+    <location>/var/ossec/logs/suricata/eve.json</location>
+  </localfile>
+</ossec_config>
+```
+
+log_format=json: tells Wazuh to parse JSON logs
+
+location: path to Suricata EVE JSON file inside the container
+
+### Fix JSON Decoder Limit Issue
+
+Suricata JSON events may exceed the default decoder field limit.
+
+To fix this, edit:
+```
+vi wazuh_etc/_data/internal_options.conf
+```
+Locate the following option (around line ~30):
+```
+analysisd.decoder_order_size=256
+```
+
+Change it to:
+```
+analysisd.decoder_order_size=1024
+```
+
+Suricata EVE JSON contains many fields
+
+Default value may cause decoding errors
+
+Increasing the limit ensures all fields are processed correctly
+
+Restart Wazuh Manager
+
+### Restart Wazuh to apply the configuration:
+```
+docker compose restart wazuh-manager
+```
+### Verification
+Check Wazuh Logs
+docker logs wazuh-manager
+Ensure there are no JSON decoding errors.
+
+
+### Notes
+
+* EVE JSON provides richer context than fast.log
+
+* Recommended for SIEM integration
+
+* Suitable for SOC-style monitoring
